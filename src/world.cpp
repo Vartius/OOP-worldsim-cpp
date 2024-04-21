@@ -119,3 +119,111 @@ void world::addEntity(Entity *entity)
 {
     entities.push_back(entity);
 }
+
+void world::nextEpoch()
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        entities[i]->behave();
+    }
+    // for (int i = 0; i < entities.size(); i++)
+    // {
+    //     entities[i]->collision();
+    // }
+    // for (int i = 0; i < entities.size(); i++)
+    // {
+    //     entities[i]->print();
+    // }
+}
+
+void world::getRandomMove(int *x, int *y)
+{
+    //                        up, down, left, right
+    bool possibleMoves[4] = {true, true, true, true};
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        if (entityX == *x && entityY == *y)
+        {
+            continue;
+        }
+        if (entityX == *x)
+        {
+            if (entityY == *y - 1)
+            {
+                possibleMoves[0] = false;
+            }
+            if (entityY == *y + 1)
+            {
+                possibleMoves[1] = false;
+            }
+        }
+        if (entityY == *y)
+        {
+            if (entityX == *x - 1)
+            {
+                possibleMoves[2] = false;
+            }
+            if (entityX == *x + 1)
+            {
+                possibleMoves[3] = false;
+            }
+        }
+    }
+    if (*x == 0)
+    {
+        possibleMoves[2] = false;
+    }
+    if (*x == width - 1)
+    {
+        possibleMoves[3] = false;
+    }
+    if (*y == 0)
+    {
+        possibleMoves[0] = false;
+    }
+    if (*y == height - 1)
+    {
+        possibleMoves[1] = false;
+    }
+    int movesCount = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        if (possibleMoves[i])
+        {
+            movesCount++;
+        }
+    }
+    if (movesCount == 0)
+    {
+        return;
+    }
+    int move = rand() % movesCount;
+    for (int i = 0; i < 4; i++)
+    {
+        if (possibleMoves[i])
+        {
+            if (move == 0)
+            {
+                switch (i)
+                {
+                case 0:
+                    *y -= 1;
+                    break;
+                case 1:
+                    *y += 1;
+                    break;
+                case 2:
+                    *x -= 1;
+                    break;
+                case 3:
+                    *x += 1;
+                    break;
+                }
+                return;
+            }
+            move--;
+        }
+    }
+}

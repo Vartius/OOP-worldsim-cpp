@@ -4,6 +4,8 @@
 std::vector<int> getRandPoses(int count, int width, int height)
 {
     std::vector<int> poses;
+    poses.push_back(0);
+    poses.push_back(0);
     while (poses.size() < count)
     {
         int x = rand() % width;
@@ -30,15 +32,14 @@ int main()
 {
     srand(time(NULL));
     int wWidth, wHeight;
-    wWidth = 20;
-    wHeight = 20;
+    wWidth = 10;
+    wHeight = 10;
     initscr();
     world w(wWidth, wHeight);
 
     std::vector<int> poses = getRandPoses(10, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
-        // w.addEntity(new animal(1, 1, poses[i], poses[i + 1], &w));
         int animalType = rand() % 5;
         switch (animalType)
         {
@@ -62,9 +63,9 @@ int main()
 
     while (true)
     {
-        // w.nextEpoch();
+        clear();
+        w.nextEpoch();
         w.printWorld();
-        refresh();
         getch();
     }
     endwin();

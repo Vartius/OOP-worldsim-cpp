@@ -19,4 +19,5 @@ public:
     void printWorld();
     void getWorldSize(int &width, int &height);
     void addEntity(Entity *entity);
+    void getRandomMove(int *x, int *y);
 };
