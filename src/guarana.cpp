@@ -1,5 +1,5 @@
 #include <guarana.h>
 
-guarana::guarana(int power, int initiative, int posX, int posY, world *w) : plant(power, initiative, posX, posY, w)
+guarana::guarana(int posX, int posY, world *w) : plant(posX, posY, w)
 {
 }

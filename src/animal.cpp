@@ -3,7 +3,7 @@
 #include <mainInclude.h>
 #include <ncurses.h>
 
-animal::animal(int power, int initiative, int posX, int posY, world *w) : Entity(power, initiative, posX, posY, w)
+animal::animal(int posX, int posY, world *w) : Entity(posX, posY, w)
 {
 }
 

@@ -5,5 +5,5 @@
 class turtle : public animal
 {
 public:
-    turtle(int power, int initiative, int posX, int posY, world *w);
+    turtle(int posX, int posY, world *w);
 };

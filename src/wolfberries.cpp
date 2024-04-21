@@ -1,6 +1,6 @@
 #include <wolfberries.h>
 
-wolfberries::wolfberries(int power, int initiative, int posX, int posY, world *w) : plant(power, initiative, posX, posY, w)
+wolfberries::wolfberries(int posX, int posY, world *w) : plant(posX, posY, w)
 {
-    power = 99;
+    this->strength = 99;
 }

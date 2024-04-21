@@ -5,5 +5,5 @@
 class sheep : public animal
 {
 public:
-    sheep(int power, int initiative, int posX, int posY, world *w);
+    sheep(int posX, int posY, world *w);
 };

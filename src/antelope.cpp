@@ -1,8 +1,10 @@
 #include <antelope.h>
 #include <world.h>
 
-antelope::antelope(int power, int initiative, int posX, int posY, world *w) : animal(power, initiative, posX, posY, w)
+antelope::antelope(int posX, int posY, world *w) : animal(posX, posY, w)
 {
+    this->strength = 4;
+    this->initiative = 4;
 }
 void antelope::move()
 {

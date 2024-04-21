@@ -6,14 +6,14 @@ class world;
 class Entity
 {
 protected:
-    int power;
+    int strength;
     int initiative;
     int posX;
     int posY;
     world *w;
 
 public:
-    Entity(int power, int initiative, int posX, int posY, world *w);
+    Entity(int posX, int posY, world *w);
     virtual void behave() = 0;
     virtual void collision() = 0;
     virtual void print() = 0;

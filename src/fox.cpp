@@ -1,5 +1,7 @@
 #include <fox.h>
 
-fox::fox(int power, int initiative, int posX, int posY, world *w) : animal(power, initiative, posX, posY, w)
+fox::fox(int posX, int posY, world *w) : animal(posX, posY, w)
 {
+    this->strength = 3;
+    this->initiative = 7;
 }

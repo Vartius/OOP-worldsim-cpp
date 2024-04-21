@@ -2,8 +2,9 @@
 #include <world.h>
 #include <ncurses.h>
 
-plant::plant(int power, int initiative, int posX, int posY, world *w) : Entity(power, initiative, posX, posY, w)
+plant::plant(int posX, int posY, world *w) : Entity(posX, posY, w)
 {
+    this->initiative = 0;
 }
 
 void plant::behave()

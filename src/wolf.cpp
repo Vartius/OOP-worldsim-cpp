@@ -1,7 +1,7 @@
 #include <wolf.h>
 
-wolf::wolf(int power, int initiative, int posX, int posY, world *w) : animal(power, initiative, posX, posY, w)
+wolf::wolf(int posX, int posY, world *w) : animal(posX, posY, w)
 {
-    power = 9;
-    initiative = 5;
+    this->strength = 9;
+    this->initiative = 5;
 }

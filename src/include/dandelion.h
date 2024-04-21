@@ -5,5 +5,5 @@
 class dandelion : public plant
 {
 public:
-    dandelion(int power, int initiative, int posX, int posY, world *w);
+    dandelion(int posX, int posY, world *w);
 };

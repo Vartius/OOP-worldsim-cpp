@@ -1,7 +1,7 @@
 #include <sheep.h>
 
-sheep::sheep(int power, int initiative, int posX, int posY, world *w) : animal(power, initiative, posX, posY, w)
+sheep::sheep(int posX, int posY, world *w) : animal(posX, posY, w)
 {
-    power = 4;
-    initiative = 4;
+    this->strength = 4;
+    this->initiative = 4;
 }

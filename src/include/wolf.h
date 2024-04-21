@@ -5,5 +5,5 @@
 class wolf : public animal
 {
 public:
-    wolf(int power, int initiative, int posX, int posY, world *w);
+    wolf(int posX, int posY, world *w);
 };

@@ -42,41 +42,41 @@ int main()
     {
         if (i == 0)
         {
-            w.addEntity(new human(5, 5, poses[i], poses[i + 1], &w));
+            w.addEntity(new human(poses[i], poses[i + 1], &w));
             continue;
         }
         int animalType = rand() % 10;
         switch (animalType)
         {
         case 0:
-            w.addEntity(new wolf(1, 1, poses[i], poses[i + 1], &w));
+            w.addEntity(new wolf(poses[i], poses[i + 1], &w));
             break;
         case 1:
-            w.addEntity(new sheep(2, 2, poses[i], poses[i + 1], &w));
+            w.addEntity(new sheep(poses[i], poses[i + 1], &w));
             break;
         case 2:
-            w.addEntity(new fox(3, 3, poses[i], poses[i + 1], &w));
+            w.addEntity(new fox(poses[i], poses[i + 1], &w));
             break;
         case 3:
-            w.addEntity(new antelope(4, 4, poses[i], poses[i + 1], &w));
+            w.addEntity(new antelope(poses[i], poses[i + 1], &w));
             break;
         case 4:
-            w.addEntity(new turtle(5, 5, poses[i], poses[i + 1], &w));
+            w.addEntity(new turtle(poses[i], poses[i + 1], &w));
             break;
         case 5:
-            w.addEntity(new dandelion(0, 0, poses[i], poses[i + 1], &w));
+            w.addEntity(new dandelion(poses[i], poses[i + 1], &w));
             break;
         case 6:
-            w.addEntity(new grass(0, 0, poses[i], poses[i + 1], &w));
+            w.addEntity(new grass(poses[i], poses[i + 1], &w));
             break;
         case 7:
-            w.addEntity(new guarana(0, 0, poses[i], poses[i + 1], &w));
+            w.addEntity(new guarana(poses[i], poses[i + 1], &w));
             break;
         case 8:
-            w.addEntity(new wolfberries(0, 0, poses[i], poses[i + 1], &w));
+            w.addEntity(new wolfberries(poses[i], poses[i + 1], &w));
             break;
         case 9:
-            w.addEntity(new heracleum(0, 0, poses[i], poses[i + 1], &w));
+            w.addEntity(new heracleum(poses[i], poses[i + 1], &w));
             break;
         }
     }

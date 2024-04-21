@@ -3,8 +3,10 @@
 #include <vector>
 #include <ncurses.h>
 
-human::human(int power, int initiative, int posX, int posY, world *w) : animal(power, initiative, posX, posY, w)
+human::human(int posX, int posY, world *w) : animal(posX, posY, w)
 {
+    this->initiative = 4;
+    this->strength = 5;
 }
 void human::move()
 {
@@ -22,13 +24,13 @@ void human::move()
         for (int i = 0; i < moves.size(); i++)
         {
             if (moves[i].first == posX - 1)
-                mvprintw(0, i, "w\n");
-            else if (moves[i].first == posX + 1)
-                mvprintw(0, i, "s\n");
-            else if (moves[i].second == posY - 1)
                 mvprintw(0, i, "a\n");
-            else if (moves[i].second == posY + 1)
+            else if (moves[i].first == posX + 1)
                 mvprintw(0, i, "d\n");
+            else if (moves[i].second == posY - 1)
+                mvprintw(0, i, "w\n");
+            else if (moves[i].second == posY + 1)
+                mvprintw(0, i, "s\n");
         }
         c = getch();
         if (c == 'a')

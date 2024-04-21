@@ -5,5 +5,5 @@
 class guarana : public plant
 {
 public:
-    guarana(int power, int initiative, int posX, int posY, world *w);
+    guarana(int posX, int posY, world *w);
 };

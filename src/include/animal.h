@@ -6,7 +6,7 @@
 class animal : public Entity
 {
 public:
-    animal(int power, int initiative, int posX, int posY, world *w);
+    animal(int posX, int posY, world *w);
     void behave();
     void collision();
     void print();
