@@ -50,3 +50,8 @@ void animal::getPosition(int &x, int &y)
     x = this->posX;
     y = this->posY;
 }
+
+void animal::getInitiative(int &initiative)
+{
+    initiative = this->initiative;
+}

@@ -13,6 +13,7 @@ public:
     void move();
     void reproduce(animal *otherAnimal);
     void getPosition(int &x, int &y);
+    void getInitiative(int &initiative);
 
 private:
     void createNewAnimal(int posX, int posY);

@@ -18,4 +18,5 @@ public:
     virtual void collision() = 0;
     virtual void print() = 0;
     virtual void getPosition(int &x, int &y) = 0;
+    virtual void getInitiative(int &initiative) = 0;
 };

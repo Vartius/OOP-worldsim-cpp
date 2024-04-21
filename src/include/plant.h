@@ -10,4 +10,5 @@ public:
     void collision();
     void print();
     void getPosition(int &x, int &y);
+    void getInitiative(int &initiative);
 };

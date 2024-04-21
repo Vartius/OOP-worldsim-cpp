@@ -217,3 +217,13 @@ void world::randomMove(int *x, int *y, int distance)
         *y = res.second;
     }
 }
+
+void world::sortEntities()
+{
+    std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
+              {
+        int aInitiative, bInitiative;
+        a->getInitiative(aInitiative);
+        b->getInitiative(bInitiative);
+        return aInitiative > bInitiative; });
+}

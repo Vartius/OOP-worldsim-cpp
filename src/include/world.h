@@ -21,4 +21,5 @@ public:
     void addEntity(Entity *entity);
     void randomMove(int *x, int *y, int distance);
     bool getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves);
+    void sortEntities();
 };

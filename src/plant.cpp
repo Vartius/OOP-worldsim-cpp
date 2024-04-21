@@ -23,3 +23,8 @@ void plant::getPosition(int &x, int &y)
     x = this->posX;
     y = this->posY;
 }
+
+void plant::getInitiative(int &initiative)
+{
+    initiative = this->initiative;
+}
