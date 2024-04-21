@@ -81,15 +81,12 @@ int main()
         }
     }
 
-    int epochs = 0;
     while (true)
     {
-        clear();
+
         w.sortEntities();
-        w.printWorld();
         w.nextEpoch();
-        refresh();
-        epochs++;
+        w.updateRound();
     }
     endwin();
     return 0;

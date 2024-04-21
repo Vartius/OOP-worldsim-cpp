@@ -55,3 +55,13 @@ void animal::getInitiative(int &initiative)
 {
     initiative = this->initiative;
 }
+
+void animal::getStrength(int &strength)
+{
+    strength = this->strength;
+}
+
+void animal::getBirthRound(int &birthRound)
+{
+    birthRound = this->birthRound;
+}

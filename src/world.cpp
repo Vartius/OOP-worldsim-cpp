@@ -161,15 +161,9 @@ void world::nextEpoch()
     for (int i = 0; i < entities.size(); i++)
     {
         entities[i]->behave();
+        clear();
+        printWorld();
     }
-    // for (int i = 0; i < entities.size(); i++)
-    // {
-    //     entities[i]->collision();
-    // }
-    // for (int i = 0; i < entities.size(); i++)
-    // {
-    //     entities[i]->print();
-    // }
 }
 
 bool world::getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves)
@@ -222,8 +216,24 @@ void world::sortEntities()
 {
     std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
               {
-        int aInitiative, bInitiative;
+        int aInitiative, bInitiative, aBirthRound, bBirthRound;
         a->getInitiative(aInitiative);
         b->getInitiative(bInitiative);
+        a->getBirthRound(aBirthRound);
+        b->getBirthRound(bBirthRound);
+        if (aInitiative == bInitiative)
+        {
+            return aBirthRound > bBirthRound;
+        }
         return aInitiative > bInitiative; });
+}
+
+int world::getRound()
+{
+    return round;
+}
+
+void world::updateRound()
+{
+    round++;
 }

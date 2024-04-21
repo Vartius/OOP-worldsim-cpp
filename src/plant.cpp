@@ -29,3 +29,13 @@ void plant::getInitiative(int &initiative)
 {
     initiative = this->initiative;
 }
+
+void plant::getStrength(int &strength)
+{
+    strength = this->strength;
+}
+
+void plant::getBirthRound(int &birthRound)
+{
+    birthRound = this->birthRound;
+}

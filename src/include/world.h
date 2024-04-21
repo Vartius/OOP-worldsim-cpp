@@ -12,6 +12,7 @@ private:
     std::vector<Entity *> entities;
     int width;
     int height;
+    int round = 0;
 
 public:
     world(int width, int height);
@@ -22,4 +23,6 @@ public:
     void randomMove(int *x, int *y, int distance);
     bool getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves);
     void sortEntities();
+    int getRound();
+    void updateRound();
 };
