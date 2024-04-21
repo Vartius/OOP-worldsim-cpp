@@ -166,94 +166,43 @@ void world::nextEpoch()
     // }
 }
 
-void world::getRandomMove(int *x, int *y)
+struct pos
 {
-    //                        up, down, left, right
-    bool possibleMoves[4] = {true, true, true, true};
+    int x;
+    int y;
+};
+void world::randomMove(int *x, int *y, int distance)
+{
+    std::vector<pos> moves;
+    for (int i = -distance; i <= distance; i++)
+    {
+        for (int j = -distance; j <= distance; j++)
+        {
+            if (abs(i) + abs(j) > distance || (*x + i < 0) || (*x + i >= width) || (*y + j < 0) || (*y + j >= height))
+            {
+                continue;
+            }
+            moves.push_back({*x + i, *y + j});
+        }
+    }
     for (int i = 0; i < entities.size(); i++)
     {
         int entityX, entityY;
         entities[i]->getPosition(entityX, entityY);
-        if (entityX == *x && entityY == *y)
+        for (int j = 0; j < moves.size(); j++)
         {
-            continue;
-        }
-        if (entityX == *x)
-        {
-            if (entityY == *y - 1)
+            if (entityX == moves[j].x && entityY == moves[j].y)
             {
-                possibleMoves[0] = false;
-            }
-            if (entityY == *y + 1)
-            {
-                possibleMoves[1] = false;
-            }
-        }
-        if (entityY == *y)
-        {
-            if (entityX == *x - 1)
-            {
-                possibleMoves[2] = false;
-            }
-            if (entityX == *x + 1)
-            {
-                possibleMoves[3] = false;
+                moves.erase(moves.begin() + j);
+                j--;
             }
         }
     }
-    if (*x == 0)
-    {
-        possibleMoves[2] = false;
-    }
-    if (*x == width - 1)
-    {
-        possibleMoves[3] = false;
-    }
-    if (*y == 0)
-    {
-        possibleMoves[0] = false;
-    }
-    if (*y == height - 1)
-    {
-        possibleMoves[1] = false;
-    }
-    int movesCount = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        if (possibleMoves[i])
-        {
-            movesCount++;
-        }
-    }
-    if (movesCount == 0)
+    if (moves.size() == 0)
     {
         return;
     }
-    int move = rand() % movesCount;
-    for (int i = 0; i < 4; i++)
-    {
-        if (possibleMoves[i])
-        {
-            if (move == 0)
-            {
-                switch (i)
-                {
-                case 0:
-                    *y -= 1;
-                    break;
-                case 1:
-                    *y += 1;
-                    break;
-                case 2:
-                    *x -= 1;
-                    break;
-                case 3:
-                    *x += 1;
-                    break;
-                }
-                return;
-            }
-            move--;
-        }
-    }
+    pos res = moves[rand() % moves.size()];
+    *x = res.x;
+    *y = res.y;
 }

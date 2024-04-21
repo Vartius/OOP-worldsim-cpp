@@ -1,5 +1,6 @@
 #include <animal.h>
 #include <world.h>
+#include <mainInclude.h>
 #include <ncurses.h>
 
 animal::animal(int power, int initiative, int posX, int posY, world *w) : Entity(power, initiative, posX, posY, w)
@@ -13,7 +14,7 @@ void animal::move()
     int waysCount = 0;
 
     bool *moves;
-    w->getRandomMove(&posX, &posY);
+    w->randomMove(&posX, &posY, 1);
 }
 
 void animal::reproduce(animal *otherAnimal)
@@ -26,6 +27,13 @@ void animal::createNewAnimal(int posX, int posY)
 
 void animal::behave()
 {
+    if (dynamic_cast<turtle *>(this))
+    {
+        if (rand() % 4 != 0)
+        {
+            return;
+        }
+    }
     move();
 }
 

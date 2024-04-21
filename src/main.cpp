@@ -37,7 +37,7 @@ int main()
     initscr();
     world w(wWidth, wHeight);
 
-    std::vector<int> poses = getRandPoses(20, wWidth, wHeight);
+    std::vector<int> poses = getRandPoses(10, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
         int animalType = rand() % 10;
@@ -79,9 +79,9 @@ int main()
     while (true)
     {
         clear();
-        w.nextEpoch();
         w.printWorld();
         getch();
+        w.nextEpoch();
     }
     endwin();
     return 0;
