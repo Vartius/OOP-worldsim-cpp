@@ -32,15 +32,15 @@ int main()
 {
     srand(time(NULL));
     int wWidth, wHeight;
-    wWidth = 10;
-    wHeight = 10;
+    wWidth = 20;
+    wHeight = 20;
     initscr();
     world w(wWidth, wHeight);
 
-    std::vector<int> poses = getRandPoses(10, wWidth, wHeight);
+    std::vector<int> poses = getRandPoses(20, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
-        int animalType = rand() % 5;
+        int animalType = rand() % 10;
         switch (animalType)
         {
         case 0:
@@ -53,10 +53,25 @@ int main()
             w.addEntity(new fox(3, 3, poses[i], poses[i + 1], &w));
             break;
         case 3:
-            w.addEntity(new antilope(4, 4, poses[i], poses[i + 1], &w));
+            w.addEntity(new antelope(4, 4, poses[i], poses[i + 1], &w));
             break;
         case 4:
             w.addEntity(new turtle(5, 5, poses[i], poses[i + 1], &w));
+            break;
+        case 5:
+            w.addEntity(new dandelion(0, 0, poses[i], poses[i + 1], &w));
+            break;
+        case 6:
+            w.addEntity(new grass(0, 0, poses[i], poses[i + 1], &w));
+            break;
+        case 7:
+            w.addEntity(new guarana(0, 0, poses[i], poses[i + 1], &w));
+            break;
+        case 8:
+            w.addEntity(new wolfberries(0, 0, poses[i], poses[i + 1], &w));
+            break;
+        case 9:
+            w.addEntity(new heracleum(0, 0, poses[i], poses[i + 1], &w));
             break;
         }
     }

@@ -5,5 +5,9 @@
             "binaryPath": "/home/vartius/prog/cpp/oop/proj1/worldSimulator",
             "binaryArgs": []
         }
-    ]
+    ],
+    "files.associations": {
+        "numeric": "cpp",
+        "vector": "cpp"
+    }
 }

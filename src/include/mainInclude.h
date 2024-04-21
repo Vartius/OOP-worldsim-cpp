@@ -6,6 +6,11 @@
 #include <sheep.h>
 #include <fox.h>
 #include <turtle.h>
-#include <antilope.h>
+#include <antelope.h>
 #include <vector>
 #include <time.h>
+#include <dandelion.h>
+#include <grass.h>
+#include <guarana.h>
+#include <wolfberries.h>
+#include <heracleum.h>

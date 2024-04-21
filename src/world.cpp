@@ -75,33 +75,63 @@ void world::printWorld()
         }
         else if (dynamic_cast<sheep *>(entities[i]))
         {
-            attron(COLOR_PAIR(2));
+            attron(COLOR_PAIR(7));
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "S");
-            attroff(COLOR_PAIR(2));
+            attroff(COLOR_PAIR(7));
         }
         else if (dynamic_cast<fox *>(entities[i]))
         {
-            attron(COLOR_PAIR(3));
+            attron(COLOR_PAIR(1));
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "F");
-            attroff(COLOR_PAIR(3));
+            attroff(COLOR_PAIR(1));
         }
-        else if (dynamic_cast<antilope *>(entities[i]))
+        else if (dynamic_cast<antelope *>(entities[i]))
         {
-            attron(COLOR_PAIR(4));
+            attron(COLOR_PAIR(1));
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "A");
-            attroff(COLOR_PAIR(4));
+            attroff(COLOR_PAIR(1));
         }
         else if (dynamic_cast<turtle *>(entities[i]))
         {
-            attron(COLOR_PAIR(5));
+            attron(COLOR_PAIR(1));
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "T");
-            attroff(COLOR_PAIR(5));
+            attroff(COLOR_PAIR(1));
+        }
+        else if (dynamic_cast<dandelion *>(entities[i]))
+        {
+            attron(COLOR_PAIR(2));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "D");
+            attroff(COLOR_PAIR(2));
+        }
+        else if (dynamic_cast<grass *>(entities[i]))
+        {
+            attron(COLOR_PAIR(2));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "G");
+            attroff(COLOR_PAIR(2));
+        }
+        else if (dynamic_cast<guarana *>(entities[i]))
+        {
+            attron(COLOR_PAIR(2));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "g");
+            attroff(COLOR_PAIR(2));
+        }
+        else if (dynamic_cast<wolfberries *>(entities[i]))
+        {
+            attron(COLOR_PAIR(2));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "w");
+            attroff(COLOR_PAIR(2));
+        }
+        else if (dynamic_cast<heracleum *>(entities[i]))
+        {
+            attron(COLOR_PAIR(2));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "h");
+            attroff(COLOR_PAIR(2));
         }
         else
         {
-            attron(COLOR_PAIR(6));
+            attron(COLOR_PAIR(1));
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "O");
-            attroff(COLOR_PAIR(6));
+            attroff(COLOR_PAIR(1));
         }
         attroff(A_BOLD);
     }

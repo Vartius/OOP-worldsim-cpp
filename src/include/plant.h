@@ -9,4 +9,5 @@ public:
     void behave();
     void collision();
     void print();
+    void getPosition(int &x, int &y);
 };
