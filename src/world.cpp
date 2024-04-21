@@ -127,6 +127,12 @@ void world::printWorld()
             mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "h");
             attroff(COLOR_PAIR(2));
         }
+        else if (dynamic_cast<human *>(entities[i]))
+        {
+            attron(COLOR_PAIR(3));
+            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "H");
+            attroff(COLOR_PAIR(3));
+        }
         else
         {
             attron(COLOR_PAIR(1));
@@ -166,14 +172,9 @@ void world::nextEpoch()
     // }
 }
 
-struct pos
+bool world::getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves)
 {
-    int x;
-    int y;
-};
-void world::randomMove(int *x, int *y, int distance)
-{
-    std::vector<pos> moves;
+    moves.clear();
     for (int i = -distance; i <= distance; i++)
     {
         for (int j = -distance; j <= distance; j++)
@@ -191,7 +192,7 @@ void world::randomMove(int *x, int *y, int distance)
         entities[i]->getPosition(entityX, entityY);
         for (int j = 0; j < moves.size(); j++)
         {
-            if (entityX == moves[j].x && entityY == moves[j].y)
+            if (entityX == moves[j].first && entityY == moves[j].second)
             {
                 moves.erase(moves.begin() + j);
                 j--;
@@ -200,9 +201,19 @@ void world::randomMove(int *x, int *y, int distance)
     }
     if (moves.size() == 0)
     {
-        return;
+        return false;
     }
-    pos res = moves[rand() % moves.size()];
-    *x = res.x;
-    *y = res.y;
+    return true;
+}
+
+void world::randomMove(int *x, int *y, int distance)
+{
+    std::vector<std::pair<int, int>> moves;
+
+    if (getPossiblePoses(x, y, distance, moves))
+    {
+        std::pair<int, int> res = moves[rand() % moves.size()];
+        *x = res.first;
+        *y = res.second;
+    }
 }

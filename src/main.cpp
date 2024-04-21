@@ -40,6 +40,11 @@ int main()
     std::vector<int> poses = getRandPoses(10, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
+        if (i == 0)
+        {
+            w.addEntity(new human(5, 5, poses[i], poses[i + 1], &w));
+            continue;
+        }
         int animalType = rand() % 10;
         switch (animalType)
         {
@@ -80,8 +85,8 @@ int main()
     {
         clear();
         w.printWorld();
-        getch();
         w.nextEpoch();
+        refresh();
     }
     endwin();
     return 0;
