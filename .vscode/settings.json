@@ -1,0 +1,14 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/vartius/prog/cpp/oop/proj1",
+            "binaryPath": "/home/vartius/prog/cpp/oop/proj1/worldSimulator",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "*.inc": "cpp",
+        "vector": "cpp",
+        "typeinfo": "cpp"
+    }
+}
