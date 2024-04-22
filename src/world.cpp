@@ -337,7 +337,7 @@ void world::randomMove(Entity *entity, int distance)
                             if (moves2.size() == 0 || rand() % 2 == 0)
                             {
                                 entities[i]->setReproductionStun(10);
-                                entity->setReproductionStun(20);
+                                entity->setReproductionStun(10);
                                 entities[i]->setStun(true);
                                 return;
                             }
@@ -345,7 +345,7 @@ void world::randomMove(Entity *entity, int distance)
                             this->addEntity(res2.first, res2.second, symbolEnum(entity->getSymbol()));
                             entities.back()->setStun(true);
                             entities[i]->setStun(true);
-                            entity->setReproductionStun(20);
+                            entity->setReproductionStun(10);
                             entities.back()->setReproductionStun(20);
                             entities[i]->setReproductionStun(10);
                         }
