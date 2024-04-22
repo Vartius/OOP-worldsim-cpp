@@ -37,7 +37,7 @@ int main()
     initscr();
     world w(wWidth, wHeight);
 
-    std::vector<int> poses = getRandPoses(10, wWidth, wHeight);
+    std::vector<int> poses = getRandPoses(20, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
         if (i == 0)

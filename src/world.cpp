@@ -334,15 +334,19 @@ void world::randomMove(Entity *entity, int distance)
                         if (getPossiblePoses(entityX, entityY, distance, moves2))
                         {
                             eraseEnitiesFromMoves(moves2, entities);
-                            if (moves2.size() == 0)
+                            if (moves2.size() == 0 || rand() % 2 == 0)
                             {
+                                entities[i]->setReproductionStun(10);
+                                entity->setReproductionStun(20);
+                                entities[i]->setStun(true);
                                 return;
                             }
                             std::pair<int, int> res2 = moves2[rand() % moves2.size()];
                             this->addEntity(res2.first, res2.second, symbolEnum(entity->getSymbol()));
                             entities.back()->setStun(true);
                             entities[i]->setStun(true);
-                            entities.back()->setReproductionStun(30);
+                            entity->setReproductionStun(20);
+                            entities.back()->setReproductionStun(20);
                             entities[i]->setReproductionStun(10);
                         }
                     }
@@ -359,16 +363,11 @@ void world::sortEntities()
 {
     std::sort(entities.begin(), entities.end(), [](Entity *a, Entity *b)
               {
-        int aInitiative, bInitiative, aBirthRound, bBirthRound;
-        a->getInitiative(aInitiative);
-        b->getInitiative(bInitiative);
-        a->getBirthRound(aBirthRound);
-        b->getBirthRound(bBirthRound);
-        if (aInitiative == bInitiative)
+        if (a->getInitiative() == b->getInitiative())
         {
-            return aBirthRound > bBirthRound;
+            return a->getBirthRound() > b->getBirthRound();
         }
-        return aInitiative > bInitiative; });
+        return a->getInitiative() > b->getInitiative(); });
 }
 
 int world::getRound()

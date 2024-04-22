@@ -9,9 +9,4 @@ public:
     void behave();
     void collision();
     void print();
-    void getPosition(int &x, int &y);
-    void getInitiative(int &initiative);
-    void getStrength(int &strength);
-    void getBirthRound(int &birthRound);
-    void setPosition(int x, int y);
 };

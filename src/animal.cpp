@@ -50,30 +50,3 @@ void animal::collision()
 void animal::print()
 {
 }
-
-void animal::getPosition(int &x, int &y)
-{
-    x = this->posX;
-    y = this->posY;
-}
-
-void animal::getInitiative(int &initiative)
-{
-    initiative = this->initiative;
-}
-
-void animal::getStrength(int &strength)
-{
-    strength = this->strength;
-}
-
-void animal::getBirthRound(int &birthRound)
-{
-    birthRound = this->birthRound;
-}
-
-void animal::setPosition(int x, int y)
-{
-    this->posX = x;
-    this->posY = y;
-}

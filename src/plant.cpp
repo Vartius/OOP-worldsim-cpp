@@ -7,12 +7,6 @@ plant::plant(int posX, int posY, world *w) : Entity(posX, posY, w)
     this->initiative = 0;
 }
 
-void plant::setPosition(int x, int y)
-{
-    this->posX = x;
-    this->posY = y;
-}
-
 void plant::behave()
 {
 }
@@ -23,25 +17,4 @@ void plant::collision()
 
 void plant::print()
 {
-}
-
-void plant::getPosition(int &x, int &y)
-{
-    x = this->posX;
-    y = this->posY;
-}
-
-void plant::getInitiative(int &initiative)
-{
-    initiative = this->initiative;
-}
-
-void plant::getStrength(int &strength)
-{
-    strength = this->strength;
-}
-
-void plant::getBirthRound(int &birthRound)
-{
-    birthRound = this->birthRound;
 }

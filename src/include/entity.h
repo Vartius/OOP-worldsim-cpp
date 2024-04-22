@@ -21,11 +21,11 @@ public:
     virtual void behave() = 0;
     virtual void collision() = 0;
     virtual void print() = 0;
-    virtual void getPosition(int &x, int &y) = 0;
-    virtual void getInitiative(int &initiative) = 0;
-    virtual void getStrength(int &strength) = 0;
-    virtual void getBirthRound(int &birthRound) = 0;
-    virtual void setPosition(int x, int y) = 0;
+    void getPosition(int &x, int &y);
+    int getInitiative();
+    int getStrength();
+    int getBirthRound();
+    void setPosition(int x, int y);
     char getSymbol();
     void setStun(bool stun);
     void setReproductionStun(int reproductionStun);
