@@ -13,4 +13,5 @@ public:
     void getInitiative(int &initiative);
     void getStrength(int &strength);
     void getBirthRound(int &birthRound);
+    void setPosition(int x, int y);
 };

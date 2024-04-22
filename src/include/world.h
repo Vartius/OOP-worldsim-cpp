@@ -19,9 +19,9 @@ public:
     void nextEpoch();
     void printWorld();
     void getWorldSize(int &width, int &height);
-    void addEntity(Entity *entity);
-    void randomMove(int *x, int *y, int distance);
-    bool getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves);
+    void addEntity(int posX, int posY, int type);
+    void randomMove(Entity *entity, int distance);
+    bool getPossiblePoses(int x, int y, int distance, std::vector<std::pair<int, int>> &moves);
     void sortEntities();
     int getRound();
     void updateRound();

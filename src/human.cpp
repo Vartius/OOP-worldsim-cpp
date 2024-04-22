@@ -7,6 +7,7 @@ human::human(int posX, int posY, world *w) : animal(posX, posY, w)
 {
     this->initiative = 4;
     this->strength = 5;
+    this->symbol = 'H';
 }
 void human::move()
 {
@@ -15,7 +16,7 @@ void human::move()
     while (!isSet)
     {
         std::vector<std::pair<int, int>> moves;
-        if (!this->w->getPossiblePoses(&posX, &posY, 1, moves))
+        if (!this->w->getPossiblePoses(posX, posY, 1, moves))
         {
             mvprintw(0, 0, "No possible moves");
             getch();

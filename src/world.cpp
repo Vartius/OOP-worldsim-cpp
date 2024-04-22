@@ -1,6 +1,8 @@
 #include <world.h>
 #include <ncurses.h>
 #include <mainInclude.h>
+#include <typeinfo>
+#include <string>
 
 world::world(int width, int height)
 {
@@ -151,9 +153,44 @@ void world::printWorld()
     }
 }
 
-void world::addEntity(Entity *entity)
+void world::addEntity(int posX, int posY, int type)
 {
-    entities.push_back(entity);
+    switch (type)
+    {
+    case 0:
+        entities.push_back(new wolf(posX, posY, this));
+        break;
+    case 1:
+        entities.push_back(new sheep(posX, posY, this));
+        break;
+    case 2:
+        entities.push_back(new fox(posX, posY, this));
+        break;
+    case 3:
+        entities.push_back(new antelope(posX, posY, this));
+        break;
+    case 4:
+        entities.push_back(new turtle(posX, posY, this));
+        break;
+    case 5:
+        entities.push_back(new dandelion(posX, posY, this));
+        break;
+    case 6:
+        entities.push_back(new grass(posX, posY, this));
+        break;
+    case 7:
+        entities.push_back(new guarana(posX, posY, this));
+        break;
+    case 8:
+        entities.push_back(new wolfberries(posX, posY, this));
+        break;
+    case 9:
+        entities.push_back(new heracleum(posX, posY, this));
+        break;
+    case 10:
+        entities.push_back(new human(posX, posY, this));
+        break;
+    }
 }
 
 void world::nextEpoch()
@@ -166,20 +203,73 @@ void world::nextEpoch()
     }
 }
 
-bool world::getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair<int, int>> &moves)
+bool world::getPossiblePoses(int x, int y, int distance, std::vector<std::pair<int, int>> &moves)
 {
     moves.clear();
     for (int i = -distance; i <= distance; i++)
     {
         for (int j = -distance; j <= distance; j++)
         {
-            if (abs(i) + abs(j) > distance || (*x + i < 0) || (*x + i >= width) || (*y + j < 0) || (*y + j >= height))
+            if (abs(i) + abs(j) > distance || (x + i < 0) || (x + i >= width) || (y + j < 0) || (y + j >= height) || (i == 0 && j == 0))
             {
                 continue;
             }
-            moves.push_back({*x + i, *y + j});
+            moves.push_back({x + i, y + j});
         }
     }
+    // for (int i = 0; i < entities.size(); i++)
+    // {
+    //     int entityX, entityY;
+    //     entities[i]->getPosition(entityX, entityY);
+    //     for (int j = 0; j < moves.size(); j++)
+    //     {
+    //         if (entityX == moves[j].first && entityY == moves[j].second)
+    //         {
+    //             moves.erase(moves.begin() + j);
+    //             j--;
+    //         }
+    //     }
+    // }
+    if (moves.size() == 0)
+    {
+        return false;
+    }
+    return true;
+}
+
+int symbolEnum(const char c)
+{
+    switch (c)
+    {
+    case 'W':
+        return 0;
+    case 'S':
+        return 1;
+    case 'F':
+        return 2;
+    case 'A':
+        return 3;
+    case 'T':
+        return 4;
+    case 'D':
+        return 5;
+    case 'G':
+        return 6;
+    case 'g':
+        return 7;
+    case 'w':
+        return 8;
+    case 'h':
+        return 9;
+    case 'H':
+        return 10;
+    default:
+        return -1;
+    }
+}
+
+void eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves, std::vector<Entity *> entities)
+{
     for (int i = 0; i < entities.size(); i++)
     {
         int entityX, entityY;
@@ -193,22 +283,75 @@ bool world::getPossiblePoses(int *x, int *y, int distance, std::vector<std::pair
             }
         }
     }
-    if (moves.size() == 0)
-    {
-        return false;
-    }
-    return true;
 }
 
-void world::randomMove(int *x, int *y, int distance)
+void eraseSameEntitesFromMoves(std::vector<std::pair<int, int>> &moves, std::vector<Entity *> entities, char symbol)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        if (entities[i]->getSymbol() == symbol)
+        {
+            for (int j = 0; j < moves.size(); j++)
+            {
+                if (entityX == moves[j].first && entityY == moves[j].second)
+                {
+                    moves.erase(moves.begin() + j);
+                    j--;
+                }
+            }
+        }
+    }
+}
+
+void world::randomMove(Entity *entity, int distance)
 {
     std::vector<std::pair<int, int>> moves;
+    int x, y;
+    entity->getPosition(x, y);
 
     if (getPossiblePoses(x, y, distance, moves))
     {
         std::pair<int, int> res = moves[rand() % moves.size()];
-        *x = res.first;
-        *y = res.second;
+        if (entity->getReproductionStun() > 0)
+        {
+            entity->setReproductionStun(entity->getReproductionStun() - 1);
+            eraseSameEntitesFromMoves(moves, entities, entity->getSymbol());
+        }
+        else
+        {
+            for (int i = 0; i < entities.size(); i++)
+            {
+                int entityX, entityY;
+                entities[i]->getPosition(entityX, entityY);
+                if (entityX == res.first && entityY == res.second)
+                {
+
+                    if (entity->getSymbol() == entities[i]->getSymbol())
+                    {
+                        std::vector<std::pair<int, int>> moves2;
+                        if (getPossiblePoses(entityX, entityY, distance, moves2))
+                        {
+                            eraseEnitiesFromMoves(moves2, entities);
+                            if (moves2.size() == 0)
+                            {
+                                return;
+                            }
+                            std::pair<int, int> res2 = moves2[rand() % moves2.size()];
+                            this->addEntity(res2.first, res2.second, symbolEnum(entity->getSymbol()));
+                            entities.back()->setStun(true);
+                            entities[i]->setStun(true);
+                            entities.back()->setReproductionStun(30);
+                            entities[i]->setReproductionStun(10);
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+        entity->setPosition(res.first, res.second);
+        mvprintw(0, 0, "Moved to %d %d", res.first, res.second);
     }
 }
 

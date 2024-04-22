@@ -14,7 +14,8 @@ void animal::move()
     int waysCount = 0;
 
     bool *moves;
-    w->randomMove(&posX, &posY, 1);
+    // w->randomMove(&posX, &posY, 1);
+    w->randomMove(this, 1);
 }
 
 void animal::reproduce(animal *otherAnimal)
@@ -33,6 +34,11 @@ void animal::behave()
         {
             return;
         }
+    }
+    if (this->stun)
+    {
+        this->stun = false;
+        return;
     }
     move();
 }
@@ -64,4 +70,10 @@ void animal::getStrength(int &strength)
 void animal::getBirthRound(int &birthRound)
 {
     birthRound = this->birthRound;
+}
+
+void animal::setPosition(int x, int y)
+{
+    this->posX = x;
+    this->posY = y;
 }

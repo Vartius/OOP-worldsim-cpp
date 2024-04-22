@@ -42,48 +42,15 @@ int main()
     {
         if (i == 0)
         {
-            w.addEntity(new human(poses[i], poses[i + 1], &w));
+            w.addEntity(poses[i], poses[i + 1], 10);
             continue;
         }
         int animalType = rand() % 10;
-        switch (animalType)
-        {
-        case 0:
-            w.addEntity(new wolf(poses[i], poses[i + 1], &w));
-            break;
-        case 1:
-            w.addEntity(new sheep(poses[i], poses[i + 1], &w));
-            break;
-        case 2:
-            w.addEntity(new fox(poses[i], poses[i + 1], &w));
-            break;
-        case 3:
-            w.addEntity(new antelope(poses[i], poses[i + 1], &w));
-            break;
-        case 4:
-            w.addEntity(new turtle(poses[i], poses[i + 1], &w));
-            break;
-        case 5:
-            w.addEntity(new dandelion(poses[i], poses[i + 1], &w));
-            break;
-        case 6:
-            w.addEntity(new grass(poses[i], poses[i + 1], &w));
-            break;
-        case 7:
-            w.addEntity(new guarana(poses[i], poses[i + 1], &w));
-            break;
-        case 8:
-            w.addEntity(new wolfberries(poses[i], poses[i + 1], &w));
-            break;
-        case 9:
-            w.addEntity(new heracleum(poses[i], poses[i + 1], &w));
-            break;
-        }
+        w.addEntity(poses[i], poses[i + 1], animalType);
     }
 
     while (true)
     {
-
         w.sortEntities();
         w.nextEpoch();
         w.updateRound();

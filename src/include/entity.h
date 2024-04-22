@@ -10,8 +10,10 @@ protected:
     int initiative;
     int posX;
     int posY;
-    bool stunned = false;
+    bool stun = false;
     int birthRound;
+    int reproductionStun = 0;
+    char symbol;
     world *w;
 
 public:
@@ -23,4 +25,10 @@ public:
     virtual void getInitiative(int &initiative) = 0;
     virtual void getStrength(int &strength) = 0;
     virtual void getBirthRound(int &birthRound) = 0;
+    virtual void setPosition(int x, int y) = 0;
+    char getSymbol();
+    void setStun(bool stun);
+    void setReproductionStun(int reproductionStun);
+    int getReproductionStun();
+    virtual ~Entity(){};
 };
