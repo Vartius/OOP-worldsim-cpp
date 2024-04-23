@@ -60,3 +60,23 @@ void Entity::increaseStrength(int by)
 {
     this->strength += by;
 }
+
+void Entity::setStrength(int strength)
+{
+    this->strength = strength;
+}
+
+void Entity::setInitiative(int initiative)
+{
+    this->initiative = initiative;
+}
+
+void Entity::setBirthRound(int birthRound)
+{
+    this->birthRound = birthRound;
+}
+
+bool Entity::getStun()
+{
+    return this->stun;
+}

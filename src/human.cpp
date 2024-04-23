@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <human.h>
 #include <world.h>
 #include <vector>
@@ -18,12 +19,7 @@ void human::move()
         std::vector<std::pair<int, int>> moves;
         w->cleanWorld();
         w->printWorld();
-        if (!this->w->getPossiblePoses(posX, posY, 1, moves))
-        {
-            w->logf(5, "No possible moves for human");
-            w->getchar();
-            break;
-        }
+        this->w->getPossiblePoses(posX, posY, 1, moves);
         c = w->getchar();
         if (c == 'a')
         {
@@ -76,13 +72,39 @@ void human::move()
                     break;
                 }
             }
+        } else if (c == 'q')
+        {
+            w->setGameOver(true);
+            isSet = true;
+        } else if (c == 'e')
+        {
+            if (specialAbilityCooldown == 0)
+            {
+                specialAbilityCooldown = 5;
+                w->logf(5, "Human used special ability");
+            }
+        } else if (c == 'p'){
+            w->saveToFile("save.txt");
+            w->logf(5, "Game saved");
         }
     }
 }
 
 void human::behave()
-{
+{   
     move();
+    if (specialAbilityCooldown > 0)
+    {
+        if (specialAbilityCooldown > 2)
+        {
+            move();
+        } else if (rand() % 2 == 0)
+        {
+            move();
+        }
+        specialAbilityCooldown--;
+    }
+
 }
 
 void human::attacked(Entity *attacker)
@@ -96,4 +118,14 @@ void human::attacked(Entity *attacker)
         w->logf(5, "Human was attacked by %c", attacker->getSymbol());
         w->setGameOver(true);
     }
+}
+
+int human::getSpecialAbilityCooldown()
+{
+    return specialAbilityCooldown;
+}
+
+void human::setSpecialAbilityCooldown(int cooldown)
+{
+    specialAbilityCooldown = cooldown;
 }

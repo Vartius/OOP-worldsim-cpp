@@ -27,8 +27,12 @@ public:
     int getStrength();
     int getBirthRound();
     void setPosition(int x, int y);
+    void setStrength(int strength);
+    void setInitiative(int initiative);
+    void setBirthRound(int birthRound);
     char getSymbol();
     void setStun(bool stun);
+    bool getStun();
     void setReproductionStun(int reproductionStun);
     int getReproductionStun();
     void increaseStrength(int by);

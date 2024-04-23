@@ -9,4 +9,8 @@ public:
     void move();
     void behave() override;
     void attacked(Entity *attacker) override;
+    int getSpecialAbilityCooldown();
+    void setSpecialAbilityCooldown(int cooldown);
+private:
+    int specialAbilityCooldown;
 };

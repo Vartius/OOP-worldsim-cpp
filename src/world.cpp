@@ -1,4 +1,4 @@
-#include "animal.h"
+#include <animal.h>
 #include <entity.h>
 #include <cstdlib>
 #include <string>
@@ -7,7 +7,8 @@
 #include <ncurses.h>
 #include <mainInclude.h>
 #include <algorithm>
-#include <cstdarg> 
+#include <cstdarg>
+#include <cstdio>
 
 world::world(int width, int height)
 {
@@ -38,6 +39,10 @@ world::world(int width, int height)
     keypad(stdscr, TRUE);
     cbreak();
     noecho();
+}
+
+world::world()
+{
 }
 
 void world::getWorldSize(int &width, int &height)
@@ -476,4 +481,69 @@ void world::deleteAllAround(int x, int y, char symbol)
     }
     if (counter > 0)
         logf(5, "Entity %c (%d %d) killed %d entities", symbol, x, y, counter);
+}
+
+
+
+void world::saveToFile(const char *filename)
+{
+    FILE *file = fopen(filename, "w+");
+    if (file == NULL)
+    {
+        logf(5, "File not found");
+        return;
+    }
+    // world width and height
+    fprintf(file, "%d %d %d\n", width, height, round);
+
+    // human specialAbilityCooldown
+    for (int i = 0; i < entities.size(); i++)
+    {
+        if (entities[i]->getSymbol() == 'H')
+        {
+            human *ent = dynamic_cast<human *>(entities[i]);
+            fprintf(file, "%d\n", ent->getSpecialAbilityCooldown());
+            break;
+        }
+    }
+    
+    // number of entities
+    fprintf(file, "%d\n", entities.size());
+
+    // entities
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int posX, posY, strength, birthRound, reproductionStun, stun, specialAbilityCooldown;
+        char symbol;
+        entities[i]->getPosition(posX, posY);
+        strength = entities[i]->getStrength();
+        birthRound = entities[i]->getBirthRound();
+        reproductionStun = entities[i]->getReproductionStun();
+        stun = entities[i]->getStun();
+        symbol = entities[i]->getSymbol();
+        specialAbilityCooldown = 0;
+        if (entities[i]->getSymbol() == 'H')
+        {
+            human *ent = dynamic_cast<human *>(entities[i]);
+            specialAbilityCooldown = ent->getSpecialAbilityCooldown();
+        }
+        fprintf(file, "%d %d %d %d %d %d %c %d %d\n", posX, posY, strength, birthRound, reproductionStun, stun, symbol, symbolEnum(symbol), specialAbilityCooldown);
+    }
+    fclose(file);
+}
+
+world::~world()
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        delete entities[i];
+    }
+    delwin(worldWindow);
+    delwin(logWindow);
+    endwin();
+}
+
+void world::setRound(int round)
+{
+    this->round = round;
 }

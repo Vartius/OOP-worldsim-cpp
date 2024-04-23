@@ -9,7 +9,6 @@ class Entity;
 class world
 {
 private:
-    std::vector<std::vector<int>> map;
     std::vector<Entity *> entities;
     int width;
     int height;
@@ -18,9 +17,9 @@ private:
     int line = 0;
     WINDOW *logWindow;
     WINDOW *worldWindow;
-
 public:
     world(int width, int height);
+    world();
     void nextEpoch();
     void printWorld();
     void getWorldSize(int &width, int &height);
@@ -44,4 +43,8 @@ public:
     void deleteAllAround(int x, int y, char symbol);
     char getchar();
     void cleanWorld();
+    void saveToFile(const char *filename);
+    void setRound(int round);
+
+    ~world();
 };
