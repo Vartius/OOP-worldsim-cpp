@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <plant.h>
 #include <world.h>
 #include <ncurses.h>

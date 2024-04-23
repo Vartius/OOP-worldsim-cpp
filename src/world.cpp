@@ -1,5 +1,6 @@
 #include <entity.h>
 #include <cstdlib>
+#include <string>
 #include <vector>
 #include <world.h>
 #include <ncurses.h>
@@ -176,7 +177,7 @@ void world::deleteEntity(Entity *entity)
         if (entities[i] == entity)
         {
             entities.erase(entities.begin() + i);
-            delete entity;
+            delete entity; 
             break;
         }
     }
@@ -188,10 +189,19 @@ void world::nextEpoch()
     for (int i = 0; i < entities.size(); i++)
     {
         entities[i]->behave();
-        // wclear(logWindow);
+        if (gameOver)
+        {
+            return;
+        }
         wclear(worldWindow);
         printWorld();
     }
+    
+}
+
+char world::getchar()
+{
+    return wgetch(worldWindow);
 }
 
 void world::setGameOver(bool gameOver)
@@ -436,4 +446,30 @@ void world::cleanLog()
 Entity* world::getLastEntity()
 {
     return entities.back();
+}
+
+void world::deleteAllAround(int x, int y, char symbol)
+{
+    int counter = 0;
+    for (int i = 0; i < entities.size(); i++)
+    {
+        
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        if (abs(entityX - x) <= 1 && abs(entityY - y) <= 1 && abs(entityX - x) + abs(entityY - y) != 0 && entities[i]->getSymbol() != symbol)
+        {
+            counter++;
+            if (entities[i]->getSymbol() == 'H')
+            {
+                mvprintw(0, 0, "2Game over! You lost! Press any key to exit.");
+                getch();
+                setGameOver(true);
+                return;
+            }
+            deleteEntity(entities[i]);
+            i--;
+        }
+    }
+    if (counter > 0)
+        logf(5, "Entity %c (%d %d) killed %d entities", symbol, x, y, counter);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ncurses.h>
-#include <string>
 #include <vector>
 #include <entity.h>
 
@@ -42,4 +41,6 @@ public:
     void eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves);
     void eraseSameEntitesFromMoves(std::vector<std::pair<int, int>> &moves, char symbol);
     void deleteWithLargerStrength(Entity *entity, std::vector<std::pair<int, int>> &moves);
+    void deleteAllAround(int x, int y, char symbol);
+    char getchar();
 };

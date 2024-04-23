@@ -6,4 +6,5 @@ class wolfberries : public plant
 {
 public:
     wolfberries(int posX, int posY, world *w);
+    void attacked(Entity *attacker) override;
 };

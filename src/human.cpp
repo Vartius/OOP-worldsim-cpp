@@ -19,10 +19,10 @@ void human::move()
         if (!this->w->getPossiblePoses(posX, posY, 1, moves))
         {
             w->logf(5, "No possible moves for human");
-            getch();
+            w->getchar();
             break;
         }
-        c = getch();
+        c = w->getchar();
         if (c == 'a')
         {
             for (int i = 0; i < moves.size(); i++)
@@ -85,5 +85,13 @@ void human::behave()
 
 void human::attacked(Entity *attacker)
 {
-    
+    if (attacker->getStrength() < 5)
+    {
+        return;
+    }
+    else
+    {
+        w->logf(5, "Human was attacked by %c", attacker->getSymbol());
+        w->setGameOver(true);
+    }
 }
