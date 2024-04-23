@@ -6,4 +6,5 @@ class dandelion : public plant
 {
 public:
     dandelion(int posX, int posY, world *w);
+    void behave() override;
 };

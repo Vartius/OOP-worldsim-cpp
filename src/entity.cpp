@@ -55,3 +55,8 @@ void Entity::setPosition(int x, int y)
     this->posX = x;
     this->posY = y;
 }
+
+void Entity::increaseStrength(int by)
+{
+    this->strength += by;
+}

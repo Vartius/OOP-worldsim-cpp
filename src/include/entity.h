@@ -7,7 +7,7 @@ class world;
 class Entity
 {
 protected:
-    int strength;
+    int strength = 0;
     int initiative;
     int posX;
     int posY;
@@ -31,5 +31,6 @@ public:
     void setStun(bool stun);
     void setReproductionStun(int reproductionStun);
     int getReproductionStun();
+    void increaseStrength(int by);
     virtual ~Entity(){};
 };

@@ -95,15 +95,15 @@ void world::printWorld()
             wattroff(worldWindow, COLOR_PAIR(1));
         } else if (dynamic_cast<dandelion *>(entities[i])){
             wattron(worldWindow, COLOR_PAIR(2));
-            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "D");
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "d");
             wattroff(worldWindow, COLOR_PAIR(2));
         } else if (dynamic_cast<grass *>(entities[i])){
             wattron(worldWindow, COLOR_PAIR(2));
-            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "G");
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "g");
             wattroff(worldWindow, COLOR_PAIR(2));
         } else if (dynamic_cast<guarana *>(entities[i])){
             wattron(worldWindow, COLOR_PAIR(2));
-            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "g");
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "G");
             wattroff(worldWindow, COLOR_PAIR(2));
         } else if (dynamic_cast<wolfberries *>(entities[i])){
             wattron(worldWindow, COLOR_PAIR(2));
@@ -213,19 +213,6 @@ bool world::getPossiblePoses(int x, int y, int distance, std::vector<std::pair<i
             moves.push_back({x + i, y + j});
         }
     }
-    // for (int i = 0; i < entities.size(); i++)
-    // {
-    //     int entityX, entityY;
-    //     entities[i]->getPosition(entityX, entityY);
-    //     for (int j = 0; j < moves.size(); j++)
-    //     {
-    //         if (entityX == moves[j].first && entityY == moves[j].second)
-    //         {
-    //             moves.erase(moves.begin() + j);
-    //             j--;
-    //         }
-    //     }
-    // }
     if (moves.size() == 0)
     {
         return false;
@@ -238,20 +225,20 @@ int world::symbolEnum(const char c)
     switch (c)
     {
     case 'W':
-        return 0;
+        return 0; 
     case 'S':
-        return 1;
+        return 1; 
     case 'F':
-        return 2;
+        return 2; 
     case 'A':
-        return 3;
+        return 3; 
     case 'T':
-        return 4;
-    case 'D':
+        return 4; 
+    case 'd':
         return 5;
-    case 'G':
-        return 6;
     case 'g':
+        return 6;
+    case 'G':
         return 7;
     case 'w':
         return 8;
@@ -279,11 +266,11 @@ char world::typeEnum(int type)
     case 4:
         return 'T';
     case 5:
-        return 'D';
+        return 'd';
     case 6:
-        return 'G';
-    case 7:
         return 'g';
+    case 7:
+        return 'G';
     case 8:
         return 'w';
     case 9:
@@ -295,7 +282,7 @@ char world::typeEnum(int type)
     }
 }
 
-void deleteWithLargerStrength(std::vector<Entity *> &entities, Entity *entity, std::vector<std::pair<int, int>> &moves)
+void world::deleteWithLargerStrength(Entity *entity, std::vector<std::pair<int, int>> &moves)
 {
     for (int i = 0; i < entities.size(); i++)
     {
@@ -310,6 +297,43 @@ void deleteWithLargerStrength(std::vector<Entity *> &entities, Entity *entity, s
                     moves.erase(moves.begin() + j);
                     j--;
                 }
+            }
+        }
+    }
+}
+
+void world::eraseSameEntitesFromMoves(std::vector<std::pair<int, int>> &moves, char symbol)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        if (entities[i]->getSymbol() == symbol)
+        {
+            for (int j = 0; j < moves.size(); j++)
+            {
+                if (entityX == moves[j].first && entityY == moves[j].second)
+                {
+                    moves.erase(moves.begin() + j);
+                    j--;
+                }
+            }
+        }
+    }
+}
+
+void world::eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        for (int j = 0; j < moves.size(); j++)
+        {
+            if (entityX == moves[j].first && entityY == moves[j].second)
+            {
+                moves.erase(moves.begin() + j);
+                j--;
             }
         }
     }
@@ -346,7 +370,7 @@ void world::randomMove(Entity *entity, int distance)
     if (getPossiblePoses(x, y, distance, moves))
     {
         if (dynamic_cast<fox *>(entity)){
-            deleteWithLargerStrength(entities, entity, moves);
+            deleteWithLargerStrength(entity, moves);
         }
         std::pair<int, int> res = moves[rand() % moves.size()];
 

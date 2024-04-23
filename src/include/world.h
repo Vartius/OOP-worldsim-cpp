@@ -39,4 +39,7 @@ public:
     void cleanLog();
     char typeEnum(int type);
     Entity* getLastEntity();
+    void eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves);
+    void eraseSameEntitesFromMoves(std::vector<std::pair<int, int>> &moves, char symbol);
+    void deleteWithLargerStrength(Entity *entity, std::vector<std::pair<int, int>> &moves);
 };
