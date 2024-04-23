@@ -93,3 +93,8 @@ void human::behave()
 {
     move();
 }
+
+void human::attacked(Entity *attacker)
+{
+    
+}

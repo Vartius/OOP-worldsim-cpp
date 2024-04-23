@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <turtle.h>
+#include <world.h>
 
 turtle::turtle(int posX, int posY, world *w) : animal(posX, posY, w)
 {
@@ -21,4 +22,16 @@ void turtle::behave()
         return;
     }
     move();
+}
+
+
+
+void turtle::attacked(Entity *attacker)
+{
+    if (attacker->getStrength() < 5)
+    {
+        return;
+    } else {
+        this->w->deleteEntity(this);
+    }
 }

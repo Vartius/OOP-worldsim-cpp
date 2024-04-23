@@ -15,6 +15,6 @@ void plant::collision(std::vector<Entity *> entities, std::vector<std::pair<int,
 {
 }
 
-void plant::print()
+void plant::attacked(Entity *attacker)
 {
 }

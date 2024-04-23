@@ -108,32 +108,35 @@ void animal::collision(std::vector<Entity *> entities, std::vector<std::pair<int
         reproduce(entities, moves, i, entityX, entityY);
     } else // fight
     {
-        if (this->getStrength() >= entities[i]->getStrength())
-        {
-            this->setPosition(entityX, entityY);
-            if (entities[i]->getSymbol() == 'H')
-            {
-                mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
-                getch();
-                this->w->setGameOver(true);
-                return;
-            }
-            this->w->deleteEntity(entities[i]);
-        }
-        else
-        {
-            if (this->getSymbol() == 'H')
-            {
-                mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
-                getch();
-                this->w->setGameOver(true);
-                return;
-            }
-            this->w->deleteEntity(this);
-        }
+        entities[i]->attacked(this);
     }
 }
 
-void animal::print()
+void animal::attacked(Entity *attacker)
 {
+    if (this->getStrength() >= attacker->getStrength())
+    {
+        if (attacker->getSymbol() == 'H')
+        {
+            mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
+            getch();
+            this->w->setGameOver(true);
+            return;
+        }
+        this->w->deleteEntity(attacker);
+    }
+    else
+    {
+        int x, y;
+        this->getPosition(x, y);
+        attacker->setPosition(x, y);
+        if (this->getSymbol() == 'H')
+        {
+            mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
+            getch();
+            this->w->setGameOver(true);
+            return;
+        }
+        this->w->deleteEntity(this);
+    }
 }
