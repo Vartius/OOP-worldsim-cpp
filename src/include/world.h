@@ -43,4 +43,5 @@ public:
     void deleteWithLargerStrength(Entity *entity, std::vector<std::pair<int, int>> &moves);
     void deleteAllAround(int x, int y, char symbol);
     char getchar();
+    void cleanWorld();
 };

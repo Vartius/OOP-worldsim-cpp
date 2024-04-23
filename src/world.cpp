@@ -1,3 +1,4 @@
+#include "animal.h"
 #include <entity.h>
 #include <cstdlib>
 #include <string>
@@ -48,6 +49,11 @@ void world::getWorldSize(int &width, int &height)
 bool world::getGameOver()
 {
     return gameOver;
+}
+
+void world::cleanWorld()
+{
+    wclear(worldWindow);
 }
 
 void world::printWorld()
@@ -193,8 +199,6 @@ void world::nextEpoch()
         {
             return;
         }
-        wclear(worldWindow);
-        printWorld();
     }
     
 }

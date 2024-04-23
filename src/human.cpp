@@ -16,6 +16,8 @@ void human::move()
     while (!isSet)
     {
         std::vector<std::pair<int, int>> moves;
+        w->cleanWorld();
+        w->printWorld();
         if (!this->w->getPossiblePoses(posX, posY, 1, moves))
         {
             w->logf(5, "No possible moves for human");
