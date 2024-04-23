@@ -22,17 +22,6 @@ void human::move()
             getch();
             break;
         }
-        for (int i = 0; i < moves.size(); i++)
-        {
-            if (moves[i].first == posX - 1)
-                mvprintw(0, i, "a\n");
-            else if (moves[i].first == posX + 1)
-                mvprintw(0, i, "d\n");
-            else if (moves[i].second == posY - 1)
-                mvprintw(0, i, "w\n");
-            else if (moves[i].second == posY + 1)
-                mvprintw(0, i, "s\n");
-        }
         c = getch();
         if (c == 'a')
         {

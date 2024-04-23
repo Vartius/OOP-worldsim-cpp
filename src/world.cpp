@@ -5,38 +5,22 @@
 #include <ncurses.h>
 #include <mainInclude.h>
 #include <algorithm>
+#include <cstdarg> 
 
 world::world(int width, int height)
 {
     this->width = width;
     this->height = height;
-    map = std::vector<std::vector<int>>(height, std::vector<int>(width, 0));
-}
-
-void world::getWorldSize(int &width, int &height)
-{
-    width = this->width;
-    height = this->height;
-}
-
-bool world::getGameOver()
-{
-    return gameOver;
-}
-
-int countDigits(int num)
-{
-    int numWidth = 0;
-    while (num > 0)
-    {
-        num /= 10;
-        numWidth++;
-    }
-    return numWidth;
-}
-
-void world::printWorld()
-{
+    int consoleWidth,
+        consoleHeight;
+    getmaxyx(stdscr, consoleHeight, consoleWidth);
+    int xSize = height * 2 + 2;
+    int ySize = width * 4 + 3;
+    int x = consoleHeight/2 - xSize/2;
+    int y = consoleWidth/2 - ySize/2;
+    worldWindow = newwin(xSize, ySize, x, y);
+    logWindow = newwin(consoleHeight, y, 0, 0);
+    scrollok(logWindow, TRUE);
     use_default_colors();
     start_color();
     init_pair(1, COLOR_RED, -1);
@@ -52,112 +36,97 @@ void world::printWorld()
     keypad(stdscr, TRUE);
     cbreak();
     noecho();
-    int consoleWidth,
-        consoleHeight;
-    getmaxyx(stdscr, consoleHeight, consoleWidth);
-    int x = (consoleWidth - width * 4) / 2;
-    int y = (consoleHeight - height * 2) / 2;
+}
+
+void world::getWorldSize(int &width, int &height)
+{
+    width = this->width;
+    height = this->height;
+}
+
+bool world::getGameOver()
+{
+    return gameOver;
+}
+
+void world::printWorld()
+{
+    // wclear(worldWindow);
+    int xOffset = 2;
+    int yOffset = 1;
 
     for (int i = 0; i < height; i++)
     {
-        mvhline(y + i * 2, x, '-', width * 4 + 1);
+        mvwhline(worldWindow, i * 2 + yOffset, xOffset, '-', width * 4 + 1);
     }
 
-    mvhline(y + height * 2, x, '-', width * 4 + 1);
+    mvwhline(worldWindow, height * 2 + yOffset, xOffset, '-', width * 4 + 1);
 
     for (int i = 0; i < width + 1; i++)
     {
-        mvvline(y, x + i * 4, '|', height * 2 + 1);
+        mvwvline(worldWindow, yOffset, i * 4 + xOffset, '|', height * 2 + 1);
     }
 
     for (int i = 0; i < entities.size(); i++)
     {
         int entityX, entityY;
         entities[i]->getPosition(entityX, entityY);
-        attron(A_BOLD);
+        wattron(worldWindow, A_BOLD);
 
-        if (dynamic_cast<wolf *>(entities[i]))
-        {
-            attron(COLOR_PAIR(1));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "W");
-            attroff(COLOR_PAIR(1));
+        if (dynamic_cast<wolf *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(1));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "W");
+            wattroff(worldWindow, COLOR_PAIR(1));
+        } else if (dynamic_cast<sheep *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(7));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "S");
+            wattroff(worldWindow, COLOR_PAIR(7));
+        } else if (dynamic_cast<fox *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(1));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "F");
+            wattroff(worldWindow, COLOR_PAIR(1));
+        } else if (dynamic_cast<antelope *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(1));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "A");
+            wattroff(worldWindow, COLOR_PAIR(1));
+        } else if (dynamic_cast<turtle *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(1));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "T");
+            wattroff(worldWindow, COLOR_PAIR(1));
+        } else if (dynamic_cast<dandelion *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(2));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "D");
+            wattroff(worldWindow, COLOR_PAIR(2));
+        } else if (dynamic_cast<grass *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(2));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "G");
+            wattroff(worldWindow, COLOR_PAIR(2));
+        } else if (dynamic_cast<guarana *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(2));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "g");
+            wattroff(worldWindow, COLOR_PAIR(2));
+        } else if (dynamic_cast<wolfberries *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(2));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "w");
+            wattroff(worldWindow, COLOR_PAIR(2));
+        } else if (dynamic_cast<heracleum *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(2));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "h");
+            wattroff(worldWindow, COLOR_PAIR(2));
+        } else if (dynamic_cast<human *>(entities[i])){
+            wattron(worldWindow, COLOR_PAIR(3));
+            mvwprintw(worldWindow, entityY * 2 + yOffset + 1, entityX * 4 + 2 + xOffset, "H");
+            wattroff(worldWindow, COLOR_PAIR(3));
         }
-        else if (dynamic_cast<sheep *>(entities[i]))
-        {
-            attron(COLOR_PAIR(7));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "S");
-            attroff(COLOR_PAIR(7));
-        }
-        else if (dynamic_cast<fox *>(entities[i]))
-        {
-            attron(COLOR_PAIR(1));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "F");
-            attroff(COLOR_PAIR(1));
-        }
-        else if (dynamic_cast<antelope *>(entities[i]))
-        {
-            attron(COLOR_PAIR(1));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "A");
-            attroff(COLOR_PAIR(1));
-        }
-        else if (dynamic_cast<turtle *>(entities[i]))
-        {
-            attron(COLOR_PAIR(1));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "T");
-            attroff(COLOR_PAIR(1));
-        }
-        else if (dynamic_cast<dandelion *>(entities[i]))
-        {
-            attron(COLOR_PAIR(2));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "D");
-            attroff(COLOR_PAIR(2));
-        }
-        else if (dynamic_cast<grass *>(entities[i]))
-        {
-            attron(COLOR_PAIR(2));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "G");
-            attroff(COLOR_PAIR(2));
-        }
-        else if (dynamic_cast<guarana *>(entities[i]))
-        {
-            attron(COLOR_PAIR(2));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "g");
-            attroff(COLOR_PAIR(2));
-        }
-        else if (dynamic_cast<wolfberries *>(entities[i]))
-        {
-            attron(COLOR_PAIR(2));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "w");
-            attroff(COLOR_PAIR(2));
-        }
-        else if (dynamic_cast<heracleum *>(entities[i]))
-        {
-            attron(COLOR_PAIR(2));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "h");
-            attroff(COLOR_PAIR(2));
-        }
-        else if (dynamic_cast<human *>(entities[i]))
-        {
-            attron(COLOR_PAIR(3));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "H");
-            attroff(COLOR_PAIR(3));
-        }
-        else
-        {
-            attron(COLOR_PAIR(1));
-            mvprintw(y + entityY * 2 + 1, x + entityX * 4 + 2, "O");
-            attroff(COLOR_PAIR(1));
-        }
-        attroff(A_BOLD);
+        wattroff(worldWindow, A_BOLD);
     }
 
-    // numuration
-    int numWidth = countDigits(width);
     for (int i = 0; i < width; i++)
     {
-        mvprintw(y - 1, x + i * 4 + 2, "%d", i);
-        mvprintw(y + i * 2 + 1, x - numWidth, "%d", i);
+        mvwprintw(worldWindow, 0, i * 4 + 2 + xOffset, "%d", i);
+        mvwprintw(worldWindow, i * 2 + 1 + yOffset, 0, "%d", i);
     }
+    wrefresh(worldWindow);
 }
 
 void world::addEntity(int posX, int posY, int type)
@@ -215,10 +184,12 @@ void world::deleteEntity(Entity *entity)
 
 void world::nextEpoch()
 {
+    logf(5, "Round %d", round);
     for (int i = 0; i < entities.size(); i++)
     {
         entities[i]->behave();
-        clear();
+        // wclear(logWindow);
+        wclear(worldWindow);
         printWorld();
     }
 }
@@ -293,6 +264,37 @@ int world::symbolEnum(const char c)
     }
 }
 
+char world::typeEnum(int type)
+{
+    switch (type)
+    {
+    case 0:
+        return 'W';
+    case 1:
+        return 'S';
+    case 2:
+        return 'F';
+    case 3:
+        return 'A';
+    case 4:
+        return 'T';
+    case 5:
+        return 'D';
+    case 6:
+        return 'G';
+    case 7:
+        return 'g';
+    case 8:
+        return 'w';
+    case 9:
+        return 'h';
+    case 10:
+        return 'H';
+    default:
+        return ' ';
+    }
+}
+
 void deleteWithLargerStrength(std::vector<Entity *> &entities, Entity *entity, std::vector<std::pair<int, int>> &moves)
 {
     for (int i = 0; i < entities.size(); i++)
@@ -318,6 +320,28 @@ void world::randomMove(Entity *entity, int distance)
     std::vector<std::pair<int, int>> moves;
     int x, y;
     entity->getPosition(x, y);
+
+    int theSameCounter = 0;
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        for (int j = -1; j <= 1; j++)
+        {
+            for (int k = -1; k <= 1; k++)
+            {
+                if (entityX == x+j && entityY == y+k && entity->getSymbol() == entities[i]->getSymbol() && (j != 0 || k != 0))
+                {
+                    theSameCounter++;
+                }
+            }
+        }
+    }
+    if (theSameCounter > 2){
+        logf(5, "Entity %c died because of overpopulation", entity->getSymbol());
+        deleteEntity(entity);
+        return;
+    }
 
     if (getPossiblePoses(x, y, distance, moves))
     {
@@ -359,4 +383,33 @@ int world::getRound()
 void world::updateRound()
 {
     round++;
+}
+
+
+
+void world::logf(int color, const char* format, ...)
+{
+    wattron(logWindow, COLOR_PAIR(color));
+    va_list args;
+    va_start(args, format);
+    char buffer[256];
+    vsnprintf(buffer, sizeof(buffer), format, args);
+
+    std::string logMessage = std::string(buffer) + "\n";
+    wprintw(logWindow, logMessage.c_str());
+    wrefresh(logWindow);
+
+    va_end(args);
+    wattroff(logWindow, COLOR_PAIR(color));
+}
+
+void world::cleanLog()
+{
+    wclear(logWindow);
+    wrefresh(logWindow);
+}
+
+Entity* world::getLastEntity()
+{
+    return entities.back();
 }

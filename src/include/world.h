@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ncurses.h>
+#include <string>
 #include <vector>
 #include <entity.h>
 
@@ -14,6 +16,9 @@ private:
     int height;
     int round = 0;
     bool gameOver = false;
+    int line = 0;
+    WINDOW *logWindow;
+    WINDOW *worldWindow;
 
 public:
     world(int width, int height);
@@ -30,4 +35,8 @@ public:
     int symbolEnum(const char c);
     void updateRound();
     bool getGameOver();
+    void logf(int color, const char *format, ...);
+    void cleanLog();
+    char typeEnum(int type);
+    Entity* getLastEntity();
 };

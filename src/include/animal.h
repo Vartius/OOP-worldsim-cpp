@@ -11,7 +11,4 @@ public:
     void attacked(Entity *attacker);
     void move();
     void reproduce(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i, int entityX, int entityY);
-
-private:
-    void createNewAnimal(int posX, int posY);
 };

@@ -14,6 +14,7 @@ void turtle::behave()
 {
     if (rand() % 4 != 0)
     {
+        w->logf(4, "Turtle on %d %d did not move", this->posX, this->posY);
         return;
     }
     if (this->stun)

@@ -15,15 +15,13 @@ void animal::move()
     w->randomMove(this, 1);
 }
 
-void animal::createNewAnimal(int posX, int posY)
-{
-}
-
 void animal::behave()
 {
+
     if (this->stun)
     {
         this->stun = false;
+        w->logf(5, "%c unstunned", this->getSymbol());
         return;
     }
     move();
@@ -68,6 +66,13 @@ void eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves, std::vector<
 
 void animal::reproduce(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i, int entityX, int entityY)
 {
+    for (int j = 0; j < entities.size(); j++)
+    {   
+        if (entities[j]->getSymbol() == this->getSymbol())
+        {
+            entities[j]->setReproductionStun(0);
+        }
+    }
     if (this->getReproductionStun() > 0)
     {
         this->setReproductionStun(this->getReproductionStun() - 1);
@@ -79,20 +84,25 @@ void animal::reproduce(std::vector<Entity *> entities, std::vector<std::pair<int
         if (this->w->getPossiblePoses(entityX, entityY, 1, moves2))
         {
             eraseEnitiesFromMoves(moves2, entities);
-            if (moves2.size() == 0 || rand() % 5 == 0)
+            if (moves2.size() == 0 || rand() % 3 == 0)
             {
                 entities[i]->setReproductionStun(1);
                 this->setReproductionStun(1);
                 entities[i]->setStun(true);
+                w->logf(4, "%c reproduction failed", this->getSymbol());
+                w->logf(7, "%c stunned", entities[i]->getSymbol());
                 return;
             }
             std::pair<int, int> res2 = moves2[rand() % moves2.size()];
             this->w->addEntity(res2.first, res2.second, this->w->symbolEnum(this->getSymbol()));
-            entities.back()->setStun(true);
+            Entity *newEntity = w->getLastEntity();
+            newEntity->setStun(true);
             entities[i]->setStun(true);
             this->setReproductionStun(3);
-            entities.back()->setReproductionStun(10);
+            newEntity->setReproductionStun(10);
             entities[i]->setReproductionStun(3);
+            w->logf(2, "%c reproduced", this->getSymbol());
+            w->logf(7, "%c %c %c are stunned", newEntity->getSymbol(), entities[i]->getSymbol(), this->getSymbol());
             return;
         }
     }
@@ -123,6 +133,7 @@ void animal::attacked(Entity *attacker)
             this->w->setGameOver(true);
             return;
         }
+        w->logf(1, "%c killed by %c", attacker->getSymbol(), this->getSymbol());
         this->w->deleteEntity(attacker);
     }
     else
@@ -137,6 +148,7 @@ void animal::attacked(Entity *attacker)
             this->w->setGameOver(true);
             return;
         }
+        w->logf(1, "%c killed by %c", this->getSymbol(), attacker->getSymbol());
         this->w->deleteEntity(this);
     }
 }
