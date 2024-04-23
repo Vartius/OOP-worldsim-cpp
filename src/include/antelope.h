@@ -9,4 +9,5 @@ public:
     void move();
     void behave() override;
     void attacked(Entity *attacker) override;
+    void collision(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i) override;
 };

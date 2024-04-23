@@ -38,6 +38,7 @@ void fox::behave()
 {
     if (this->stun)
     {
+        w->logf(5, "%c unstunned", this->getSymbol());
         this->stun = false;
         return;
     }

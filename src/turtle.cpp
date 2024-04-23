@@ -14,11 +14,12 @@ void turtle::behave()
 {
     if (rand() % 4 != 0)
     {
-        w->logf(4, "Turtle on %d %d did not move", this->posX, this->posY);
+        w->logf(4, "Turtle on %d %d decided not to move", this->posX, this->posY);
         return;
     }
     if (this->stun)
     {
+        w->logf(5, "%c unstunned", this->getSymbol());
         this->stun = false;
         return;
     }

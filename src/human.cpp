@@ -18,7 +18,7 @@ void human::move()
         std::vector<std::pair<int, int>> moves;
         if (!this->w->getPossiblePoses(posX, posY, 1, moves))
         {
-            mvprintw(0, 0, "No possible moves");
+            w->logf(5, "No possible moves for human");
             getch();
             break;
         }
