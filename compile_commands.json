@@ -7,11 +7,11 @@
       "-Isrc/include",
       "-c",
       "-o",
-      "obj/animal.o",
-      "src/animal.cpp"
+      "obj/main.o",
+      "src/main.cpp"
     ],
     "directory": "/home/vartius/prog/cpp/oop/proj1",
-    "file": "/home/vartius/prog/cpp/oop/proj1/src/animal.cpp",
-    "output": "/home/vartius/prog/cpp/oop/proj1/obj/animal.o"
+    "file": "/home/vartius/prog/cpp/oop/proj1/src/main.cpp",
+    "output": "/home/vartius/prog/cpp/oop/proj1/obj/main.o"
   }
 ]

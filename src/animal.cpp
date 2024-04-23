@@ -113,7 +113,7 @@ void animal::collision(std::vector<Entity *> entities, std::vector<std::pair<int
             this->setPosition(entityX, entityY);
             if (entities[i]->getSymbol() == 'H')
             {
-                mvprintw(0, 0, "1111111Game over! You lost! Press any key to exit.");
+                mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
                 getch();
                 this->w->setGameOver(true);
                 return;
@@ -124,7 +124,7 @@ void animal::collision(std::vector<Entity *> entities, std::vector<std::pair<int
         {
             if (this->getSymbol() == 'H')
             {
-                mvprintw(0, 0, "1212121Game over! You lost! Press any key to exit.");
+                mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
                 getch();
                 this->w->setGameOver(true);
                 return;

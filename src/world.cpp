@@ -1,4 +1,6 @@
+#include <entity.h>
 #include <cstdlib>
+#include <vector>
 #include <world.h>
 #include <ncurses.h>
 #include <mainInclude.h>
@@ -291,6 +293,26 @@ int world::symbolEnum(const char c)
     }
 }
 
+void deleteWithLargerStrength(std::vector<Entity *> &entities, Entity *entity, std::vector<std::pair<int, int>> &moves)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        for (int j = 0; j < moves.size(); j++)
+        {
+            if (entityX == moves[j].first && entityY == moves[j].second)
+            {
+                if (entities[i]->getStrength() > entity->getStrength())
+                {
+                    moves.erase(moves.begin() + j);
+                    j--;
+                }
+            }
+        }
+    }
+}
+
 void world::randomMove(Entity *entity, int distance)
 {
     std::vector<std::pair<int, int>> moves;
@@ -299,6 +321,9 @@ void world::randomMove(Entity *entity, int distance)
 
     if (getPossiblePoses(x, y, distance, moves))
     {
+        if (dynamic_cast<fox *>(entity)){
+            deleteWithLargerStrength(entities, entity, moves);
+        }
         std::pair<int, int> res = moves[rand() % moves.size()];
 
         for (int i = 0; i < entities.size(); i++)
