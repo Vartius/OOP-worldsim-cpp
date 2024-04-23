@@ -13,6 +13,7 @@ private:
     int width;
     int height;
     int round = 0;
+    bool gameOver = false;
 
 public:
     world(int width, int height);
@@ -20,9 +21,13 @@ public:
     void printWorld();
     void getWorldSize(int &width, int &height);
     void addEntity(int posX, int posY, int type);
+    void deleteEntity(Entity *entity);
     void randomMove(Entity *entity, int distance);
+    void setGameOver(bool gameOver);
     bool getPossiblePoses(int x, int y, int distance, std::vector<std::pair<int, int>> &moves);
     void sortEntities();
     int getRound();
+    int symbolEnum(const char c);
     void updateRound();
+    bool getGameOver();
 };

@@ -1,8 +1,8 @@
+#include <cstdlib>
 #include <world.h>
 #include <ncurses.h>
 #include <mainInclude.h>
-#include <typeinfo>
-#include <string>
+#include <algorithm>
 
 world::world(int width, int height)
 {
@@ -15,6 +15,11 @@ void world::getWorldSize(int &width, int &height)
 {
     width = this->width;
     height = this->height;
+}
+
+bool world::getGameOver()
+{
+    return gameOver;
 }
 
 int countDigits(int num)
@@ -193,6 +198,19 @@ void world::addEntity(int posX, int posY, int type)
     }
 }
 
+void world::deleteEntity(Entity *entity)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        if (entities[i] == entity)
+        {
+            entities.erase(entities.begin() + i);
+            delete entity;
+            break;
+        }
+    }
+}
+
 void world::nextEpoch()
 {
     for (int i = 0; i < entities.size(); i++)
@@ -201,6 +219,11 @@ void world::nextEpoch()
         clear();
         printWorld();
     }
+}
+
+void world::setGameOver(bool gameOver)
+{
+    this->gameOver = gameOver;
 }
 
 bool world::getPossiblePoses(int x, int y, int distance, std::vector<std::pair<int, int>> &moves)
@@ -237,7 +260,7 @@ bool world::getPossiblePoses(int x, int y, int distance, std::vector<std::pair<i
     return true;
 }
 
-int symbolEnum(const char c)
+int world::symbolEnum(const char c)
 {
     switch (c)
     {
@@ -268,43 +291,6 @@ int symbolEnum(const char c)
     }
 }
 
-void eraseEnitiesFromMoves(std::vector<std::pair<int, int>> &moves, std::vector<Entity *> entities)
-{
-    for (int i = 0; i < entities.size(); i++)
-    {
-        int entityX, entityY;
-        entities[i]->getPosition(entityX, entityY);
-        for (int j = 0; j < moves.size(); j++)
-        {
-            if (entityX == moves[j].first && entityY == moves[j].second)
-            {
-                moves.erase(moves.begin() + j);
-                j--;
-            }
-        }
-    }
-}
-
-void eraseSameEntitesFromMoves(std::vector<std::pair<int, int>> &moves, std::vector<Entity *> entities, char symbol)
-{
-    for (int i = 0; i < entities.size(); i++)
-    {
-        int entityX, entityY;
-        entities[i]->getPosition(entityX, entityY);
-        if (entities[i]->getSymbol() == symbol)
-        {
-            for (int j = 0; j < moves.size(); j++)
-            {
-                if (entityX == moves[j].first && entityY == moves[j].second)
-                {
-                    moves.erase(moves.begin() + j);
-                    j--;
-                }
-            }
-        }
-    }
-}
-
 void world::randomMove(Entity *entity, int distance)
 {
     std::vector<std::pair<int, int>> moves;
@@ -314,48 +300,18 @@ void world::randomMove(Entity *entity, int distance)
     if (getPossiblePoses(x, y, distance, moves))
     {
         std::pair<int, int> res = moves[rand() % moves.size()];
-        if (entity->getReproductionStun() > 0)
-        {
-            entity->setReproductionStun(entity->getReproductionStun() - 1);
-            eraseSameEntitesFromMoves(moves, entities, entity->getSymbol());
-        }
-        else
-        {
-            for (int i = 0; i < entities.size(); i++)
-            {
-                int entityX, entityY;
-                entities[i]->getPosition(entityX, entityY);
-                if (entityX == res.first && entityY == res.second)
-                {
 
-                    if (entity->getSymbol() == entities[i]->getSymbol())
-                    {
-                        std::vector<std::pair<int, int>> moves2;
-                        if (getPossiblePoses(entityX, entityY, distance, moves2))
-                        {
-                            eraseEnitiesFromMoves(moves2, entities);
-                            if (moves2.size() == 0 || rand() % 2 == 0)
-                            {
-                                entities[i]->setReproductionStun(10);
-                                entity->setReproductionStun(10);
-                                entities[i]->setStun(true);
-                                return;
-                            }
-                            std::pair<int, int> res2 = moves2[rand() % moves2.size()];
-                            this->addEntity(res2.first, res2.second, symbolEnum(entity->getSymbol()));
-                            entities.back()->setStun(true);
-                            entities[i]->setStun(true);
-                            entity->setReproductionStun(10);
-                            entities.back()->setReproductionStun(20);
-                            entities[i]->setReproductionStun(10);
-                        }
-                    }
-                    return;
-                }
+        for (int i = 0; i < entities.size(); i++)
+        {
+            int entityX, entityY;
+            entities[i]->getPosition(entityX, entityY);
+            if (entityX == res.first && entityY == res.second)
+            {
+                entity->collision(entities, moves, i);
+                return;
             }
         }
         entity->setPosition(res.first, res.second);
-        mvprintw(0, 0, "Moved to %d %d", res.first, res.second);
     }
 }
 

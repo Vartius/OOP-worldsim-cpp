@@ -6,4 +6,5 @@ class turtle : public animal
 {
 public:
     turtle(int posX, int posY, world *w);
+    void behave() override;
 };

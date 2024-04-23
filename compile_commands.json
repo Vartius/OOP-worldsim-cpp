@@ -1,0 +1,17 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-std=c++11",
+      "-Wall",
+      "-Isrc/include",
+      "-c",
+      "-o",
+      "obj/animal.o",
+      "src/animal.cpp"
+    ],
+    "directory": "/home/vartius/prog/cpp/oop/proj1",
+    "file": "/home/vartius/prog/cpp/oop/proj1/src/animal.cpp",
+    "output": "/home/vartius/prog/cpp/oop/proj1/obj/animal.o"
+  }
+]

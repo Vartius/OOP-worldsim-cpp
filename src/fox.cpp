@@ -6,3 +6,13 @@ fox::fox(int posX, int posY, world *w) : animal(posX, posY, w)
     this->initiative = 7;
     this->symbol = 'F';
 }
+
+void fox::behave()
+{
+    if (this->stun)
+    {
+        this->stun = false;
+        return;
+    }
+    move();
+}

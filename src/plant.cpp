@@ -11,7 +11,7 @@ void plant::behave()
 {
 }
 
-void plant::collision()
+void plant::collision(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i)
 {
 }
 

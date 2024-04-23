@@ -1,17 +1,16 @@
 #pragma once
 
 #include "entity.h"
-#include <cstdlib>
 
 class animal : public Entity
 {
 public:
     animal(int posX, int posY, world *w);
     void behave();
-    void collision();
+    void collision(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i);
     void print();
     void move();
-    void reproduce(animal *otherAnimal);
+    void reproduce(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i, int entityX, int entityY);
 
 private:
     void createNewAnimal(int posX, int posY);

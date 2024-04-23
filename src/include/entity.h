@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 class world;
 
 // abstract class
@@ -19,7 +20,7 @@ protected:
 public:
     Entity(int posX, int posY, world *w);
     virtual void behave() = 0;
-    virtual void collision() = 0;
+    virtual void collision(std::vector<Entity *> entities, std::vector<std::pair<int, int>> &moves, int i) = 0;
     virtual void print() = 0;
     void getPosition(int &x, int &y);
     int getInitiative();

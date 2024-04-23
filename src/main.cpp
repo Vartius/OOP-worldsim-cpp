@@ -1,5 +1,7 @@
+#include <cstdlib>
 #include <ncurses.h>
 #include <mainInclude.h>
+#include <time.h>
 
 std::vector<int> getRandPoses(int count, int width, int height)
 {
@@ -37,7 +39,7 @@ int main()
     initscr();
     world w(wWidth, wHeight);
 
-    std::vector<int> poses = getRandPoses(20, wWidth, wHeight);
+    std::vector<int> poses = getRandPoses(40, wWidth, wHeight);
     for (int i = 0; i < poses.size(); i++)
     {
         if (i == 0)
@@ -49,7 +51,7 @@ int main()
         w.addEntity(poses[i], poses[i + 1], animalType);
     }
 
-    while (true)
+    while (!w.getGameOver())
     {
         w.sortEntities();
         w.nextEpoch();
