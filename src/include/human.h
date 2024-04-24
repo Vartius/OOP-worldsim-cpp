@@ -11,6 +11,7 @@ public:
     void attacked(Entity *attacker) override;
     int getSpecialAbilityCooldown();
     void setSpecialAbilityCooldown(int cooldown);
+    void actualMove(int x, int y);
 private:
     int specialAbilityCooldown;
 };

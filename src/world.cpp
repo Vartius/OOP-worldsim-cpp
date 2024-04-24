@@ -183,6 +183,13 @@ void world::addEntity(int posX, int posY, int type)
 
 void world::deleteEntity(Entity *entity)
 {
+    if (entity->getSymbol() == 'H')
+    {
+        mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
+        getch();
+        setGameOver(true);
+        return;
+    }
     for (int i = 0; i < entities.size(); i++)
     {
         if (entities[i] == entity)
@@ -546,4 +553,18 @@ world::~world()
 void world::setRound(int round)
 {
     this->round = round;
+}
+
+Entity* world::getEntity(int x, int y)
+{
+    for (int i = 0; i < entities.size(); i++)
+    {
+        int entityX, entityY;
+        entities[i]->getPosition(entityX, entityY);
+        if (entityX == x && entityY == y)
+        {
+            return entities[i];
+        }
+    }
+    return nullptr;
 }

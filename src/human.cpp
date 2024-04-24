@@ -1,3 +1,4 @@
+#include <entity.h>
 #include <cstdlib>
 #include <human.h>
 #include <world.h>
@@ -10,6 +11,22 @@ human::human(int posX, int posY, world *w) : animal(posX, posY, w)
     this->strength = 5;
     this->symbol = 'H';
 }
+
+void human::actualMove(int x, int y){
+    Entity *e = w->getEntity(x, y);
+    if (e != nullptr)
+    {
+        w->logf(5, "Human attacked %c", w->getEntity(x, y)->getSymbol());
+        e->attacked(this);
+    }
+    else
+    {
+        w->logf(5, "Human moved to %d %d", x, y);
+        posX = x;
+        posY = y;
+    }
+}
+
 void human::move()
 {
     char c;
@@ -27,8 +44,7 @@ void human::move()
             {
                 if (moves[i].first == posX - 1)
                 {
-                    posX = moves[i].first;
-                    posY = moves[i].second;
+                    actualMove(moves[i].first, moves[i].second);
                     isSet = true;
                     break;
                 }
@@ -40,8 +56,7 @@ void human::move()
             {
                 if (moves[i].first == posX + 1)
                 {
-                    posX = moves[i].first;
-                    posY = moves[i].second;
+                    actualMove(moves[i].first, moves[i].second);
                     isSet = true;
                     break;
                 }
@@ -53,8 +68,7 @@ void human::move()
             {
                 if (moves[i].second == posY - 1)
                 {
-                    posX = moves[i].first;
-                    posY = moves[i].second;
+                    actualMove(moves[i].first, moves[i].second);
                     isSet = true;
                     break;
                 }
@@ -66,10 +80,9 @@ void human::move()
             {
                 if (moves[i].second == posY + 1)
                 {
-                    posX = moves[i].first;
-                    posY = moves[i].second;
+                    actualMove(moves[i].first, moves[i].second);
                     isSet = true;
-                    break;
+                    return;
                 }
             }
         } else if (c == 'q')
@@ -88,6 +101,7 @@ void human::move()
             w->logf(5, "Game saved");
         }
     }
+    
 }
 
 void human::behave()

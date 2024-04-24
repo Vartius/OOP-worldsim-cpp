@@ -28,6 +28,7 @@ public:
     void randomMove(Entity *entity, int distance);
     void setGameOver(bool gameOver);
     bool getPossiblePoses(int x, int y, int distance, std::vector<std::pair<int, int>> &moves);
+    Entity *getEntity(int x, int y);
     void sortEntities();
     int getRound();
     int symbolEnum(const char c);
