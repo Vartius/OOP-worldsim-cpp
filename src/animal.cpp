@@ -93,6 +93,7 @@ void animal::attacked(Entity *attacker)
     {
         if (attacker->getSymbol() == 'H')
         {
+            clear();
             mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
             getch();
             this->w->setGameOver(true);
@@ -108,6 +109,7 @@ void animal::attacked(Entity *attacker)
         attacker->setPosition(x, y);
         if (this->getSymbol() == 'H')
         {
+            clear();
             mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
             getch();
             this->w->setGameOver(true);

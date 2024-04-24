@@ -24,6 +24,7 @@ void fox::collision(std::vector<Entity *> entities, std::vector<std::pair<int, i
             this->setPosition(entityX, entityY);
             if (entities[i]->getSymbol() == 'H')
             {
+                clear();
                 mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
                 getch();
                 this->w->setGameOver(true);

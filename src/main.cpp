@@ -116,10 +116,12 @@ int main()
                 w->logf(5, "adding human on %d %d", poses[i], poses[i + 1]);
                 w->addEntity(poses[i], poses[i + 1], 10);
                 continue;
+            } else 
+            {
+                int animalType = rand() % 10;
+                w->logf(5, "adding %c on %d %d", w->typeEnum(animalType), poses[i], poses[i + 1]);
+                w->addEntity(poses[i], poses[i + 1], animalType);
             }
-            int animalType = rand() % 10;
-            w->logf(5, "adding %c on %d %d", w->typeEnum(animalType), poses[i], poses[i + 1]);
-            w->addEntity(poses[i], poses[i + 1], animalType);
         }
     }
     while (!w->getGameOver())

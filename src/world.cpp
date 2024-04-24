@@ -21,7 +21,7 @@ world::world(int width, int height)
     int ySize = width * 4 + 3;
     int x = consoleHeight/2 - xSize/2;
     int y = consoleWidth/2 - ySize/2;
-    worldWindow = newwin(xSize, ySize, x, y);
+    worldWindow = newwin(xSize+1, ySize +1 , x, y-1);
     logWindow = newwin(consoleHeight, y, 0, 0);
     scrollok(logWindow, TRUE);
     use_default_colors();
@@ -65,8 +65,9 @@ void world::printWorld()
 {
     // wclear(worldWindow);
     int xOffset = 2;
-    int yOffset = 1;
+    int yOffset = 2;
 
+    mvwprintw(worldWindow, 0, 0, "Matsvei Kasparovich 201627");
     for (int i = 0; i < height; i++)
     {
         mvwhline(worldWindow, i * 2 + yOffset, xOffset, '-', width * 4 + 1);
@@ -135,7 +136,7 @@ void world::printWorld()
 
     for (int i = 0; i < width; i++)
     {
-        mvwprintw(worldWindow, 0, i * 4 + 2 + xOffset, "%d", i);
+        mvwprintw(worldWindow, 1, i * 4 + 2 + xOffset, "%d", i);
         mvwprintw(worldWindow, i * 2 + 1 + yOffset, 0, "%d", i);
     }
     wrefresh(worldWindow);
@@ -185,6 +186,7 @@ void world::deleteEntity(Entity *entity)
 {
     if (entity->getSymbol() == 'H')
     {
+        clear();
         mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
         getch();
         setGameOver(true);
@@ -477,7 +479,8 @@ void world::deleteAllAround(int x, int y, char symbol)
             counter++;
             if (entities[i]->getSymbol() == 'H')
             {
-                mvprintw(0, 0, "2Game over! You lost! Press any key to exit.");
+                clear();
+                mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
                 getch();
                 setGameOver(true);
                 return;

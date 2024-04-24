@@ -20,7 +20,8 @@ void heracleum::attacked(Entity *attacker)
 {
     if (attacker->getSymbol() == 'H')
     {
-        mvprintw(0, 0, "1Game over! You lost! Press any key to exit.");
+        clear();
+        mvprintw(0, 0, "Game over! You lost! Press any key to exit.");
         getch();
         this->w->setGameOver(true);
         return;
