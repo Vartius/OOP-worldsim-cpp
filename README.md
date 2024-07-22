@@ -1,2 +1,2 @@
-world simulator using ncurses and analnyj oop
+world simulator using ncurses and oop
 
